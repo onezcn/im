@@ -1,0 +1,71 @@
+.image-seticon{
+  display: inline-block;
+  background-repeat: no-repeat;
+  background-position: center center;
+  background-size: contain;
+  border:1px solid #ccc;
+  margin:1px;
+  position: relative;
+  cursor: pointer;
+}
+.image-seticon.dragover{
+  background-color:#f9f2f4;
+}
+.image-seticon.uploading{
+  background-color:green;
+}
+.image-seticon i{
+  position: absolute;
+  right: -9px;
+  top: -9px;
+  width: 20px;
+  height: 20px;
+  display: none;
+  background: url(../images/remove.png) no-repeat;
+  background-size: 100% 100%;
+  z-index: 9;
+}
+.image-seticon div{
+  position: absolute;
+  left: 0;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  overflow: hidden;
+}
+.image-seticon input{
+  position: absolute;
+  left: 0;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  opacity: 0;
+  z-index: 2;
+}
+.image-seticon:before{
+  position: absolute;
+  content: '';
+  height:1px;
+  left: 10px;
+  right: 10px;
+  top: 50%;
+  background: #ccc;
+}
+.image-seticon:after{
+  position: absolute;
+  content: '';
+  width:1px;
+  top: 10px;
+  bottom: 10px;
+  left: 50%;
+  background: #ccc;
+}
+.image-seticon.image-seticon-has:before{
+  display: none;
+}
+.image-seticon.image-seticon-has:after{
+  display: none;
+}
+.image-seticon.image-seticon-has i{
+  display: block;
+}

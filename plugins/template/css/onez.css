@@ -1,0 +1,14 @@
+.app{
+  display:none;
+}
+.more{
+  display: block;
+  text-decoration: none;
+  color: #999;
+  cursor: pointer;
+  text-align: center;
+  margin: 10px auto;
+}
+.more:hover{
+  text-decoration: none;
+}

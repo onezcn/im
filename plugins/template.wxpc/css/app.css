@@ -1,0 +1,81 @@
+html,body{
+  height: 100%;
+}
+body{
+  background-image: url(../img/bg.jpg);
+  background-size: cover;
+  overflow: hidden;
+}
+::-webkit-scrollbar{
+  width:6px;
+  background-color: transparent;
+}
+::-webkit-scrollbar-thumb{
+  background-color: rgba(0,0,0,0.2);
+  border-radius: 3px;
+}
+.onez-menu{
+  display:none;
+  position: absolute;
+  left: 100%;
+  width:100px;
+  background:#fff;
+  border:1px solid #c4c4c4;
+  z-index: 6200103;
+}
+.onez-menu li{
+  padding:5px 8px;
+  cursor:pointer;
+}
+.onez-menu li:hover{
+  background:#e2e2e2;
+}
+.keep-background {
+  z-index: 0!important;
+}
+.layui-layer-dialog {
+  z-index: 6200103000!important;
+}
+.form-control{
+  border-width: 1px;
+  border-style: solid;
+  background-color: #fff;
+  border-radius: 2px;
+}
+.btn{
+  border-color: #1aad19;
+  background-color: #1aad19;
+  color: #fff;
+  border-radius: 0px;
+}
+.btn:hover,.btn:focus,.btn.focus{
+  color: #fff;
+  border-color: #129611;
+  background-color: #129611;
+}
+.btn-default,.btn-default:hover,.btn-default:focus,.btn-default.focus{
+  border: 1px solid #dedede;
+  background-color: #fff;
+  color: #333;
+}
+form{
+  padding:15px;
+}
+.control-label{
+  font-weight: normal;
+  padding-top: 8px;
+  padding-bottom: 5px;
+}
+/*
+form button[type="submit"]{
+  display: block;
+  margin: 5px auto;
+  min-width: 200px;
+}
+*/
+textarea.form-control{
+  resize: none;
+}
+.layui-layer-content{
+  min-height:60px;
+}
