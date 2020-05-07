@@ -1,5 +1,5 @@
-佳蓝即时通讯系统开源版
-论坛讨论地址：http://www.onez.cn/onez/YmJzfC9qaWUvZGV0YWlsLnBocA==/mod/dev-index/tid/12089.html
+## 佳蓝即时通讯系统开源版
+#### 论坛讨论地址：http://www.onez.cn/onez/YmJzfC9qaWUvZGV0YWlsLnBocA==/mod/bbs/tid/12089.html
 
 ![adduser](https://github.com/onezcn/im/blob/master/screenshot/adduser.jpg)
 ![creategroup](https://github.com/onezcn/im/blob/master/screenshot/creategroup.jpg)
