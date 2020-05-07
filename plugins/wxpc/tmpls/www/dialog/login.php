@@ -30,8 +30,7 @@ if($action=='login'){
   }
   $T=onez('db')->open('member')->one(implode(' or ',$or));
   !$T && onez()->error('账号不存在');
-  #$password_md5=hash_hmac('md5',$password,$T['rndkey']);
-  $password_md5=md5($password);#旧密码格式
+  $password_md5=hash_hmac('md5',$password,$T['rndkey']);
   $T['password']!=$password_md5 && onez()->error('密码不正确');
   onez('cache')->cookie($G['this']->cname,"$T[userid]\t$T[username]\t".time(),0);
   onez()->ok('登录成功','refresh');

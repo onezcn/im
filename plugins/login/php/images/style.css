@@ -1,0 +1,14 @@
+li.qrcode{
+  position: relative;
+}
+li.qrcode img{
+  position: absolute;
+  top: -290px;
+  left: 0;
+  border:1px solid #ccc;
+  z-index: 999;
+  display: none;
+}
+li.qrcode.show img{
+  display: block;
+}

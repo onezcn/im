@@ -101,14 +101,22 @@ class onezphp_db extends onezphp{
           if($items['db_databases'][$init_token]){
             $items['db_databases'][$init_token]['pconnect']=1;
             if(!class_exists('database_mysql')){
-              include_once(dirname(__FILE__).'/lib/database_mysql.php');
+              if(function_exists('mysqli_connect')) {
+                include_once(dirname(__FILE__).'/lib/database_mysqli.php');
+              }else{
+                include_once(dirname(__FILE__).'/lib/database_mysql.php');
+              }
             }
             $this->_db=new database_mysql($items['db_databases'][$init_token]);
           }
         }
       }
       if(!class_exists('database_mysql')){
-        include_once(dirname(__FILE__).'/lib/database_mysql.php');
+        if(function_exists('mysqli_connect')) {
+          include_once(dirname(__FILE__).'/lib/database_mysqli.php');
+        }else{
+          include_once(dirname(__FILE__).'/lib/database_mysql.php');
+        }
       }
       $key=$init_token?$init_token:'default';
       if(file_exists(ONEZ_ROOT.'/config/db.'.$key.'.php')){

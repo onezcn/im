@@ -1,0 +1,120 @@
+
+.system-info{
+  width:200px;
+  background: #d7dfef;
+  border-right: 1px solid #d1d4e0;
+}
+#userlist{
+  border-top: 1px solid #d1d4e0;
+  .onez-person{
+    background: #fff;
+    border-bottom: 1px solid #d1d4e0;
+    padding: 5px;
+    position: relative;
+    &.current{
+      background: #e9ecf6;
+    }
+    .onez-person-avatar{
+      width:48px;
+      height:48px;
+      background-size:100% 100%;
+      border:1px solid #d1d4e0;
+      border-radius:5px;
+    }
+    .onez-person-nickname{
+      position: absolute;
+      left: 55px;
+      top:5px;
+    }
+    .onez-person-summary{
+      position: absolute;
+      left: 55px;
+      top:25px;
+      font-size:12px;
+      color:#666;
+    }
+    .onez-person-status{
+      position: absolute;
+      left: 5px;
+      top:5px;
+      right:5px;
+      bottom:5px;
+      .badge{
+        position: absolute;
+        right: 0px;
+        top:0px;
+      }
+    }
+  }
+}
+.system-help{
+  width:280px;
+  color: #666;
+  background: #d7dfef;
+  border-left: 1px solid #d1d4e0;
+  .nav-tabs{
+    li{
+      a{
+        border-radius:0;
+      }
+      &.active{
+        a{
+          background: #d7dfef;
+        }
+      }
+    }
+  }
+  h3{
+    margin: 10px 0;
+    font-size:16px;
+  }
+  dt{
+    width:80px;
+    overflow: hidden;
+  }
+  dd{
+    margin-left: 100px;
+  }
+  .tags{
+    padding:5px 10px;
+    .btn{
+      margin:2px;
+    }
+  }
+  #moreinfo{
+    padding: 5px;
+  }
+}
+.text-red{
+  color:#f00;
+}
+div#_link_reply_doing{
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 100%;
+  border-bottom: 1px solid #666;
+  background: rgba(0,0,0,0.8);
+  padding: 10px 0;
+  z-index: 6200103;
+  h3{
+    margin:5px 15px;
+    font-size:16px;
+    color:#fff;
+  }
+  p{
+    margin:5px 15px 20px 15px;
+    font-size:13px;
+    color:#ff0;
+    &.help{
+      color:#fff;
+      margin:15px 15px;
+    }
+  }
+  .btns{
+    margin:5px 15px;
+    button{
+      margin-right: 10px;
+    }
+  }
+}

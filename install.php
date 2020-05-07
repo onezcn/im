@@ -47,7 +47,7 @@ if($action == 'license') {
 }
 if($action == 'env') {
 	if($ispost) {
-		setcookie('action', $_POST['do'] == 'continue' ? 'onez' : 'license');
+		setcookie('action', $_POST['do'] == 'continue' ? 'db' : 'license');
 		header('location: ?refresh');
 		exit;
 	}
@@ -187,6 +187,9 @@ if($action == 'env') {
 	tpl_install_env($ret);
 }
 if($action == 'onez') {
+	setcookie('action', 'db');
+	header('location: ?refresh');
+  return;
   if(defined('ONEZ_PKEY') && ONEZ_PKEY!=''){
 		setcookie('action', 'db');
 		header('location: ?refresh');
@@ -309,32 +312,61 @@ if($action == 'db') {
     include_once(dirname(__FILE__).'/lib/onezphp.php');
     $db=$_POST['db'];
     $user=$_POST['user'];
-    $link=@mysql_connect($db['server'], $db['username'], $db['password']);
-    if(!$link){
-      tpl_install_db('无法连接数据库，请检查数据库账号和密码是否正确');
-    }
-  	if(!@mysql_select_db($db['name'], $link)){
-      @mysql_query('CREATE DATABASE IF NOT EXISTS `'.$db['name'].'` DEFAULT CHARSET utf8 COLLATE utf8_general_ci;', $link);
-      $error=mysql_error();
-      if(!@mysql_select_db($db['name'], $link)){
-        tpl_install_db('数据库<code>'.$db['name'].'</code>不存在且无法创建，请检查['.$error.']');
+    if(version_compare(PHP_VERSION, '7.0.0') == -1) {
+      $link=@mysql_connect($db['server'], $db['username'], $db['password']);
+      if(!$link){
+        tpl_install_db('无法连接数据库，请检查数据库账号和密码是否正确');
       }
-    }
-		$statement = @mysql_query("SHOW TABLES LIKE '{$db['prefix']}%';",$link);
-		if ($statement) {
-      $rs=mysql_fetch_array($statement);
-      if($rs){
-        if($_POST['clear']){
-          @mysql_query("DROP TABLE IF EXISTS {$db['prefix']}data;",$link);
-          @mysql_query("DROP TABLE IF EXISTS {$db['prefix']}device;",$link);
-          @mysql_query("DROP TABLE IF EXISTS {$db['prefix']}member;",$link);
-          @mysql_query("DROP TABLE IF EXISTS {$db['prefix']}order;",$link);
-        }else{
-          $G['hasdata']=1;
-          tpl_install_db('');
+    	if(!@mysql_select_db($db['name'], $link)){
+        @mysql_query('CREATE DATABASE IF NOT EXISTS `'.$db['name'].'` DEFAULT CHARSET utf8 COLLATE utf8_general_ci;', $link);
+        $error=mysql_error();
+        if(!@mysql_select_db($db['name'], $link)){
+          tpl_install_db('数据库<code>'.$db['name'].'</code>不存在且无法创建，请检查['.$error.']');
         }
       }
-		}
+  		$statement = @mysql_query("SHOW TABLES LIKE '{$db['prefix']}%';",$link);
+  		if ($statement) {
+        $rs=mysql_fetch_array($statement);
+        if($rs){
+          if($_POST['clear']){
+            @mysql_query("DROP TABLE IF EXISTS {$db['prefix']}data;",$link);
+            @mysql_query("DROP TABLE IF EXISTS {$db['prefix']}device;",$link);
+            @mysql_query("DROP TABLE IF EXISTS {$db['prefix']}member;",$link);
+            @mysql_query("DROP TABLE IF EXISTS {$db['prefix']}order;",$link);
+          }else{
+            $G['hasdata']=1;
+            tpl_install_db('');
+          }
+        }
+  		}
+    }else{
+      $link=mysqli_connect($db['server'], $db['username'], $db['password']);
+      if(!$link){
+        tpl_install_db('无法连接数据库，请检查数据库账号和密码是否正确');
+      }
+    	if(!@mysqli_select_db($link,$db['name'])){
+        mysqli_query($link,'CREATE DATABASE IF NOT EXISTS `'.$db['name'].'` DEFAULT CHARSET utf8 COLLATE utf8_general_ci;');
+        $error=mysql_error();
+        if(!mysqli_select_db($link,$db['name'])){
+          tpl_install_db('数据库<code>'.$db['name'].'</code>不存在且无法创建，请检查['.$error.']');
+        }
+      }
+  		$statement = mysqli_query($link,"SHOW TABLES LIKE '{$db['prefix']}%';");
+  		if ($statement) {
+        $rs=mysqli_fetch_array($statement);
+        if($rs){
+          if($_POST['clear']){
+            mysqli_query($link,"DROP TABLE IF EXISTS {$db['prefix']}data;");
+            mysqli_query($link,"DROP TABLE IF EXISTS {$db['prefix']}device;");
+            mysqli_query($link,"DROP TABLE IF EXISTS {$db['prefix']}member;");
+            mysqli_query($link,"DROP TABLE IF EXISTS {$db['prefix']}order;");
+          }else{
+            $G['hasdata']=1;
+            tpl_install_db('');
+          }
+        }
+  		}
+    }
     $code=<<<ONEZ
 <?php
 !defined('IN_ONEZ') && exit('Access Denied');
@@ -411,77 +443,6 @@ ONEZ;
       $json=json_decode(base64_decode($extra),1);
       if(!empty($json['pkey'])){
         $pkey=$json['pkey'];
-      }
-    }
-    
-    #注册站点
-    $post=array();
-    $post['format']='json';
-    $post['action']='register';
-    $post['sitename']=ONEZ_PRODUCT_SUBJECT;
-    $post['onez_usr']=$json['onez_appid'];
-    $post['appid']=$json['onez_appid'];
-    $post['appkey']=$json['onez_appkey'];
-    $post['homepage']=onez()->homepage();
-    $post['version']=ONEZ_VERSION;
-    $post['_time']=time();
-    $mymd5=md5("{$post['appid']}&{$post['homepage']}&{$post['_time']}".md5($post['appkey']));
-    $post['_md5']=$mymd5;
-    $r=onez()->post(APP_STORE_API,http_build_query($post));
-    $json=json_decode($r,1);
-    $json['error'] && onez()->error($json['error']);
-    $arr=array();
-    foreach($json as $k=>$v){
-      if(strpos($k,'onez_')!==false){
-        $arr[$k]=$v;
-      }
-    }
-    $G['this']->myoption_set($arr);
-    if(!$pkey && defined('ONEZ_PKEY') && ONEZ_PKEY!=''){
-      $pkey=ONEZ_PKEY;
-    }
-    define('IS_SITE_FRONT',1);
-    #带产品识别码的安装
-    if($pkey){
-      $post=array();
-      $post['action']='install';
-      $post['userkey']=$_COOKIE['userkey'];
-      $post['pkey']=$pkey;
-      $post['homepage']=onez()->homepage();
-      $response = onez()->post(APP_STORE_API, http_build_query($post));
-      $json=json_decode($response,1);
-      $arr=array();
-      foreach($json as $k=>$v){
-        if(strpos($k,'onez_')!==false){
-          $arr[$k]=$v;
-        }
-      }
-      onez()->myoption_set($arr);
-      if($json['files']){
-        foreach($json['files'] as $file=>$data){
-          $data=base64_decode($data);
-          mkdirs(dirname(ONEZ_ROOT.'/'.$file));
-          file_put_contents(ONEZ_ROOT.'/'.$file,$data);
-        }
-      }
-      if($json['addon']){
-        onez('onez')->install($json['addon']);
-      }
-      if($json['addons']){
-        foreach($json['addons'] as $v){
-          onez('onez')->install($v);
-        }
-      }
-      if($json['error']){
-        tpl_install_db($json['error']);
-      }
-      if($json['datas']){
-        onez('onez')->import($json['datas']);
-      }
-      if($json['plugins'] && is_array($json['plugins'])){
-        foreach($json['plugins'] as $v){
-          onez($v);
-        }
       }
     }
     

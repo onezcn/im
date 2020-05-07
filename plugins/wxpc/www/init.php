@@ -118,4 +118,14 @@ if($userid){
   ));
   $G['footer'].=onez('factory.im')->pc();
   $G['footer'].=onez('ui')->js($G['this']->url.'/js/app.js');
+  $touchFile=ONEZ_CACHE_PATH.'/init.lock';
+  if(!file_exists($touchFile)){
+    @touch($touchFile);
+    $extra=array(
+      'add-from'=>$userid,
+      'add-type'=>'init',
+    );
+    onez('factory.im')->addFriend($userid,$userid,$extra);
+    onez('factory.im')->addMessageSystem($userid,'感谢使用佳蓝即时通讯系统开源版！如有任何问题，请联系QQ：6200103');
+  }
 }

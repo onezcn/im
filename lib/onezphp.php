@@ -9,7 +9,9 @@ define('ONEZ_NODE_PATH', '/plugins');
 define('ONEZ_MYNODE_PATH', '/myplugins');
 define('ONEZ_AUTO_FETCH', 1);
 ob_start();
-if(function_exists(session_cache_limiter))session_cache_limiter('private, must-revalidate');
+if(version_compare(PHP_VERSION, '7.0.0') == -1) {
+  if(function_exists(session_cache_limiter))session_cache_limiter('private, must-revalidate');
+}
 
 class onezphp{
   var $vars=array();

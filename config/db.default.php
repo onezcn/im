@@ -3,7 +3,7 @@
 return array(
   'dbhost'=>'localhost',
   'dbuser'=>'root',
-  'dbpass'=>'root',
+  'dbpass'=>'f6200103',
   'dbname'=>'wxpc',
   'dbcharset'=>'utf8',
   'tablepre'=>'onez_',

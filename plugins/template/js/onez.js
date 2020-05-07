@@ -832,6 +832,20 @@ onez.ready(function(){
   $.fn.page = function(){  
     return onez.findPageByEl(this);
   };
+  $.fn.vue = function(){  
+    var el=$(this);
+    var role=el.attr('data-role');
+    if(!role){
+      el=el.closest('[data-role]');
+    }
+    if(el.length>0){
+      var id=el.attr('id');
+      if(onez.vues[id]){
+        return onez.vues[id];
+      }
+    }
+    return false;
+  };
   $('body').on('click','[data-token]',function(){
     var data=$(this).data();
     data.token=$(this).attr('data-token')||data.token;

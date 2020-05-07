@@ -1,0 +1,48 @@
+body.layout-boxed{
+	background:url(../php/images/3.jpg) #f8f6e9;
+  background-size: cover;
+  overflow: hidden;
+}
+.miniwin .wrapper,.content-wrapper{
+  background-color: transparent;
+}
+#form-common .box{
+  background:rgba(255,255,255,0.9);
+  width: 55%;
+  margin: 60px auto;
+  border-top:0;
+  padding-bottom: 20px;
+}
+#form-common .box-header{
+  height: 120px;
+  position: relative;
+}
+#form-common .box-header:after{
+  content: '';
+  display: block;
+  width:100px;
+  height: 100px;
+  position: absolute;
+  left: 50%;
+  margin-left: -50px;
+  top: 50px;
+  margin-top: -30px;
+  background: url(http://cdn.onez.cn/icons/2019/0120/2019012009315786400001.svg) no-repeat center center;
+  background-size: 100% auto;
+}
+#form-common .box-header h3{
+  display: none;
+}
+#form-common .box-header.with-border {
+  border-bottom: 0;
+}
+#form-common .box-body {
+  padding: 10px 50px 0 50px;
+}
+#form-common .box-footer {
+  text-align: center;
+  border-top: 0;
+  background-color: transparent;
+  line-height: 1.8;
+  padding: 5px;
+}
